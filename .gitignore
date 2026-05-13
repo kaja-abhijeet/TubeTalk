@@ -1,0 +1,19 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+venv/
+env/
+
+# Project Specific Large Files
+vector_db/
+downloads/
+downloades/
+*.wav
+*.mp3
+*.m4a
+
+# Whisper models (if they downloaded into your project folder)
+*.pt
