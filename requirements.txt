@@ -1,4 +1,4 @@
-# --- Audio / Video Acquisition ---
+\# --- Audio / Video Acquisition ---
 yt-dlp
 pydub
 ffmpeg-python
@@ -8,7 +8,7 @@ openai-whisper
 torch
 torchaudio
 
-# --- OpenAI Integration (LLM & Embeddings) ---
+# --- OpenAI Integration ---
 langchain
 langchain-core
 langchain-community
@@ -17,14 +17,12 @@ openai
 tiktoken
 
 # --- RAG Pipeline ---
-# Use langchain-chroma for the newer integration
 langchain-chroma
 chromadb
 
 # --- Streamlit UI ---
 streamlit
 streamlit-extras
-watchdog
 
 # --- Export & Utilities ---
 reportlab
@@ -33,4 +31,3 @@ python-dotenv
 numpy
 tqdm
 requests
-audioop-lts
