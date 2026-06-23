@@ -1,4 +1,4 @@
-\# --- Audio / Video Acquisition ---
+# --- Audio / Video Acquisition ---
 yt-dlp
 pydub
 ffmpeg-python
