@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 
 def get_llm():
-    return ChatOpenAI(model="gpt-4.1", openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0.2)
+    return ChatOpenAI(model="gpt-4o-mini", openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0.2)
 
 
 
