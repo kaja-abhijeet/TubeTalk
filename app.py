@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import os
 from dotenv import load_dotenv
 from utils.audio_processor import process_input
 from core.transcriber import transcribe_all
@@ -336,7 +337,21 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown('<span class="badge badge-purple">Input</span>', unsafe_allow_html=True)
-    source = st.text_input("YouTube URL or File Path", placeholder="https://youtube.com/watch?v=... or /path/to/file.mp4")
+    input_type = st.radio("Input Type", ["YouTube URL", "Upload File"], label_visibility="collapsed")
+    
+    source = ""
+    if input_type == "YouTube URL":
+        source = st.text_input("YouTube URL", placeholder="https://youtube.com/watch?v=...", label_visibility="collapsed")
+        if source:
+            st.info("⚠️ Note: YouTube downloads often fail on Streamlit Cloud due to YouTube blocking server IPs. If you get a 403 Forbidden error, please download the video/audio and use the 'Upload File' option.")
+    else:
+        uploaded_file = st.file_uploader("Upload Audio/Video", type=["mp3", "wav", "mp4", "m4a"], label_visibility="collapsed")
+        if uploaded_file is not None:
+            os.makedirs("downloads", exist_ok=True)
+            temp_path = os.path.join("downloads", uploaded_file.name)
+            with open(temp_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            source = temp_path
 
     language = st.selectbox("Language", ["english", "hinglish"], index=0)
 
@@ -363,7 +378,10 @@ st.markdown("---")
 # ── Run Pipeline ────────────────────────────────────────────────────────────────
 if run_btn:
     if not source.strip():
-        st.error("Please enter a YouTube URL or file path.")
+        if input_type == "YouTube URL":
+            st.error("Please enter a YouTube URL.")
+        else:
+            st.error("Please upload an audio or video file.")
     else:
         st.session_state.pipeline_done = False
         st.session_state.result = None
