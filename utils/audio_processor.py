@@ -51,6 +51,9 @@ def chunk_audio(wav_path:str,chunk_minutes:float=1)->list:
 
     for i, start in enumerate(range(0,len(audio),chunk_ms)):
         chunk = audio[start : start + chunk_ms]
+        # Skip trailing chunks that are too short (less than 500ms) to avoid model crash
+        if len(chunk) < 500 and len(audio) >= 500:
+            continue
         chunk_path = f"{base_name}_chunk_{i}.wav"
         chunk.export(chunk_path , format = "wav")
 

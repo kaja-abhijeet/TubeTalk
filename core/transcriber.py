@@ -1,6 +1,7 @@
 import whisper
 import os
 import requests
+import threading
 from pydub import AudioSegment
 from dotenv import load_dotenv
 
@@ -18,6 +19,7 @@ SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
 SARVAM_STT_TRANSLATE_URL = "https://api.sarvam.ai/speech-to-text-translate"
 SARVAM_MODEL = os.getenv("SARVAM_STT_MODEL", "saaras:v2.5")
 
+_transcribe_lock = threading.Lock()
 _model = None
 
 
@@ -36,7 +38,8 @@ def transcribe_chunk_whisper(chunk_path: str) -> str:
 
     model = load_model()  
 
-    result = model.transcribe(chunk_path, task="transcribe")  
+    with _transcribe_lock:
+        result = model.transcribe(chunk_path, task="transcribe")  
     return result["text"]  
 
 
